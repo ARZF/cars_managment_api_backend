@@ -5,6 +5,7 @@ from depends import get_current_user, require_role
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
+from typing import List
 
 router = APIRouter(prefix="/cars", tags=["Cars"])
 
@@ -110,3 +111,11 @@ def delete_car(
     db.delete(car)
     db.commit()
     return car
+
+@router.get("/", response_model=List[CarResponse])
+def list_all_cars(
+    current_user: User = Depends(require_role("admin")),
+    db: Session = Depends(get_db)
+):
+    cars = db.query(Car).all()
+    return cars

@@ -1,2 +1,9 @@
 /.env
 /venv
+/database.db
+/core/__pycache__
+/routers/__pycache__
+/depends/__pycache__
+/schemas/__pycache__
+/Models/__pycache__
+/__pycache__
