@@ -27,6 +27,7 @@ class Car(Base):
     approved_count = Column(Integer, default=0)
 
 class Report(Base):
+    __tablename__ = "reports"
     id = Column(Integer, primary_key=True)
     reason = Column(String)
     car_id = Column(Integer, ForeignKey("cars.id"))
