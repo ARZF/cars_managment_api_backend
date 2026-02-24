@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from Models import Car, User
-from schemas import CarRequest, CarResponse
+from schemas import CarRequest, CarResponse, RejectCarRequest
 from depends import get_current_user, require_role
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
@@ -36,6 +36,17 @@ def approve_car(
     db.refresh(car)
 
     return car
+
+@router.post("/{car_id}/reject", response_model=RejectCarRequest)
+def reject_car(
+    car_id: int,
+    request: RejectCarRequest,
+    current_user: User = Depends(require_role("admin")),
+    db: Session = Depends(get_db)
+):
+    car = db.query(Car).filter(Car.id == car_id).first()
+    if car is None:
+        raise HTTPException(status_code=404, detail="Car not found")
 
 # 🔹 Admin only
 @router.post("/register", response_model=CarResponse)

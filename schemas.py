@@ -25,10 +25,12 @@ class CarResponse(BaseModel):
     brand: str
     model: str
     year: int
-    status: str
     rejection_report: Optional[str]
     rejection_count: int
     approved_count: int
 
     class Config:
         from_attributes = True
+
+class RejectCarRequest(BaseModel):
+    rejection_report: str
